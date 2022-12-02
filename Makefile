@@ -1,15 +1,68 @@
-NAME = libftprintf.a
-LNAME = libft.a
+#--------------------------------------------------------------------------------#
+#									GENERICS									 #
+#--------------------------------------------------------------------------------#
 
-NAME_DIR = ./
-LNAME_DIR = ./libft/
+DEFAULT_GOAL: all
+.DELETE_ON_ERROR: $(NAME)
+.PHONY: all clean fclean re
+HIDE =
 
-LNAME_SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c
-LNAME_OBJ = $(addprefix $(LNAME_DIR),$(patsubst %.c,%.o,$(LNAME_SRC))
+#--------------------------------------------------------------------------------#
+#									VARIABLES									 #
+#--------------------------------------------------------------------------------#
 
-NAME_SRC = ft_printchr.c ft_printhex.c ft_printnbr.c ft_printstr.c ft_printunsigned.c ft_splitone.c
-NAME_OBJ = $(patsubst %.c,%.o,$(NAME_SRC))
+# Compiler and flags
+CC		=	gcc
+CFLAGS	=	-Wall -Werror -Wextra -I. -I./$(INCDIR)
+RM		=	rm -f
 
-.SECONDEXPANSION:
+# Main target name
+NAME	=	libftprintf.a
 
-$(NAME) $(LNAME) : $$($$@_OBJS)
+# Sources
+SRCDIR	=	src/
+SRCS	=	ft_printchr.c ft_printhex.c ft_printnbr.c \
+			ft_printstr.c ft_printunsigned.c ft_splitone.c
+SRCS	:=	$(addprefix $(SRCDIR),$(SRCS))
+
+# Objects
+OBJDIR	=	bin/
+OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
+
+# Includes
+INCDIR	=	include/
+INC		=	$(wildcard $(INCDIR)*.h)
+
+# Archive
+ADIR	=	libft/
+ANAME	= 	libft.a
+ANAME	:=	$(addprefix $(ADIR),$(ANAME))
+
+#--------------------------------------------------------------------------------#
+#									RULES										 #
+#--------------------------------------------------------------------------------#
+
+all: $(NAME)
+
+# Main target rule
+$(NAME): $(OBJS)
+	ar -rcs $(NAME) $(OBJS)
+
+# Libft rule
+$(ANAME):
+	$(MAKE) -C $(ADIR) all
+
+$(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(ANAME) $(INC) | $(OBJDIR)
+	$(HIDE)$(CC) $(CFLAGS) -L$(ADIR) -lft -c $< -o $@
+
+$(OBJDIR):
+	$(HIDE)mkdir -p $@
+
+clean:
+	$(HIDE)$(RM) $(OBJS)
+	$(HIDE)$(MAKE) -C $(ADIR) clean
+
+fclean: clean
+	$(HIDE)$(RM) $(NAME) $(ANAME)
+
+re: fclean all
