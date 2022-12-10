@@ -21,8 +21,7 @@ NAME	=	libftprintf.a
 
 # Sources
 SRCDIR	=	src/
-SRCS	=	ft_printchr.c ft_printhex.c ft_printnbr.c \
-			ft_printstr.c ft_printunsigned.c ft_splitone.c
+SRCS	=	ft_printf.c
 SRCS	:=	$(addprefix $(SRCDIR),$(SRCS))
 
 # Objects
@@ -32,11 +31,6 @@ OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
 # Includes
 INCDIR	=	include/
 INC		=	$(wildcard $(INCDIR)*.h)
-
-# Archive
-ADIR	=	libft/
-ANAME	= 	libft.a
-ANAME	:=	$(addprefix $(ADIR),$(ANAME))
 
 #--------------------------------------------------------------------------------#
 #									RULES										 #
@@ -48,11 +42,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	ar -rcs $(NAME) $(OBJS)
 
-# Libft rule
-$(ANAME):
-	$(MAKE) -C $(ADIR) all
-
-$(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(ANAME) $(INC) | $(OBJDIR)
+$(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(INC) | $(OBJDIR)
 	$(HIDE)$(CC) $(CFLAGS) -L$(ADIR) -lft -c $< -o $@
 
 $(OBJDIR):
@@ -60,9 +50,8 @@ $(OBJDIR):
 
 clean:
 	$(HIDE)$(RM) $(OBJS)
-	$(HIDE)$(MAKE) -C $(ADIR) clean
 
 fclean: clean
-	$(HIDE)$(RM) $(NAME) $(ANAME)
+	$(HIDE)$(RM) $(NAME)
 
 re: fclean all
