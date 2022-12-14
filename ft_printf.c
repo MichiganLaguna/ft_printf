@@ -6,7 +6,7 @@
 /*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 18:05:48 by nriviere          #+#    #+#             */
-/*   Updated: 2022/12/12 20:04:16 by nriviere         ###   ########.fr       */
+/*   Updated: 2022/12/14 21:50:14 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int	ft_printf(const char *format, ...)
 				i[0]++;
 				i[2] += i[1];
 			}
+			else
+				return (-1);
 		}
 		else
 			(write(1, &format[i[0]], 1), i[2]++);
