@@ -1,6 +1,8 @@
 SRC		=	ft_printf.c
-OBJ		=	$(patsubst %.c,%.o,$(SRC))
+OBJ		=	ft_printf.o
 NAME	=	libftprintf.a
+
+.PHONY : clean fclean all re
 
 all : $(NAME)
 
@@ -18,4 +20,3 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : clean fclean all re

@@ -6,7 +6,7 @@
 /*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 18:05:48 by nriviere          #+#    #+#             */
-/*   Updated: 2022/12/12 18:58:28 by nriviere         ###   ########.fr       */
+/*   Updated: 2022/12/12 20:04:16 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	_ft_putnbrb(int nbr, char *base, int bsize)
 	i = 0;
 	len = 0;
 	if (nbr < 0)
-		((write(1, "-", 1), len++), nbr = -nbr);
+		(write(1, "-", 1), len++, nbr = -nbr);
 	ui = nbr;
 	if (ui == 0)
 		(write(1, base, 1), len++);
