@@ -6,7 +6,7 @@
 /*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 18:05:48 by nriviere          #+#    #+#             */
-/*   Updated: 2022/12/26 06:21:49 by nriviere         ###   ########.fr       */
+/*   Updated: 2022/12/26 07:21:40 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,11 @@ static int	_flagfinder(char format, va_list *args)
 	else if (format == 'u')
 		return (_ft_putunbrb(va_arg(*args, unsigned int), "0123456789", 10));
 	else if (format == 'x')
-		return (_ft_putunbrb(va_arg(*args, unsigned int), "0123456789abcdef", 16));
+		return (_ft_putunbrb(va_arg(*args, unsigned int),
+				"0123456789abcdef", 16));
 	else if (format == 'X')
-		return (_ft_putunbrb(va_arg(*args, unsigned int), "0123456789ABCDEF", 16));
+		return (_ft_putunbrb(va_arg(*args, unsigned int),
+				"0123456789ABCDEF", 16));
 	else if (format == '%')
 		return (write(1, "%", 1), 1);
 	return (-1);
