@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/cdefs.h>
 #include <unistd.h>
 #include <stdarg.h>
 
@@ -107,6 +108,7 @@ static int	_flagfinder(char format, va_list *args)
 	return (-1);
 }
 
+__attribute__((__format__(__printf__, 1, 2)))
 int	ft_printf(const char *format, ...)
 {
 	int		i[3];
@@ -114,17 +116,16 @@ int	ft_printf(const char *format, ...)
 
 	i[0] = 0;
 	i[2] = 0;
-	va_start(args, format);
+    if (!format)
+        return (-1);
+    va_start(args, format);
 	while (format[i[0]])
 	{
-		if (format[i[0]] == '%' && format[i[0] + 1])
+		if (format[i[0]] == '%')
 		{
 			i[1] = _flagfinder(format[i[0] + 1], &args);
 			if (i[1] != -1)
-			{
-				i[0]++;
-				i[2] += i[1];
-			}
+				i[2] += (i[0]++, i[1]);
 			else
 				return (-1);
 		}
